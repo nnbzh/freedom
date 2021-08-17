@@ -1,8 +1,6 @@
 {
   "autoload": {
-    "psr-4": {
-      "App\\": "app/"
-    }
+    "classmap": ["app/core", "app/controllers", "app/models"]
   },
   "scripts": {
     "post-install-cmd": [
