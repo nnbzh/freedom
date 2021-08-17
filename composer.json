@@ -1,0 +1,18 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "composer dumpautoload -o"
+    ],
+    "post-update-cmd": [
+      "composer dumpautoload -o"
+    ]
+  },
+  "require": {
+    "vlucas/phpdotenv": "^2.2"
+  }
+}
