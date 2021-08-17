@@ -1,6 +1,6 @@
 {
   "autoload": {
-    "classmap": ["app/core", "app/controllers", "app/models"]
+    "classmap": ["app"]
   },
   "scripts": {
     "post-install-cmd": [
@@ -11,6 +11,8 @@
     ]
   },
   "require": {
-    "vlucas/phpdotenv": "^2.2"
+    "vlucas/phpdotenv": "^2.2",
+    "ext-pdo": "*",
+    "ext-pgsql": "*"
   }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\core\Router;
+use app\core\Router;
 
 require './app/bootstrap.php';
 
@@ -9,6 +9,7 @@ $env->load();
 
 $router = new Router();
 
-$router->add('GET', '/tasks', 'TasksController@list');
+$router->add('GET', '/', 'TasksController@list');
+$router->add('POST', '/', 'TasksController@create');
 
 $router->run();
