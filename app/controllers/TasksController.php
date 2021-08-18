@@ -19,11 +19,25 @@ class TasksController
     }
 
     public function list() {
-        $this->view->render('tasks', $this->model->all(["tasks" => $this->params]));
+        $this->view->render('tasks', [
+            "tasks" => $this->model->all($this->params),
+            "total_pages" => (int) ceil($this->model->count()['count']/3)
+        ]);
     }
 
     public function create() {
-        $result = $this->model->create($this->params);
+        $this->model->create($this->params);
+        $this->view->render('tasks', [
+            "tasks" => $this->model->all([]),
+            "total_pages" => (int) ceil($this->model->count()['count']/3)
+        ]);
     }
 
+    public function update() {
+        $id = $this->params['id'];
+        unset($this->params['id']);
+        $this->params['status'] = isset($this->params['status']) ? true : false;
+        $this->model->update($id, $this->params);
+        $this->view->redirect();
+    }
 }

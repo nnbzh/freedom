@@ -16,7 +16,7 @@ class QueryBuilder
                 $orders[] = $order['column'].' '. $order['direction'];
             }
             $this->orderBy = "ORDER BY ". implode(',', $orders);
-        } else $this->orderBy = "";
+        } else $this->orderBy = "ORDER BY id ASC";
 
         if (! empty($this->filter)) {
             $filters = [];
@@ -33,13 +33,31 @@ class QueryBuilder
     public function create($columns, $params): string
     {
         $columns = implode(',', $columns);
-        $str = '';
+        $str = [];
         foreach ($params as $key => $value) {
-            $str = $str."'$value'";
-            if ($key !== sizeof($params) - 1) $str = $str.',';
+            $str[] = "'$value'";
         }
+        $str = implode(',', $str);
 
         return "INSERT INTO ".$this->table."($columns) VALUES ($str)";
+    }
+
+    public function update($id, $params) {
+        $str = [];
+        foreach ($params as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
+
+            $str[] = "$key='$value'";
+        }
+        $str = implode(',', $str);
+
+        return "UPDATE ".$this->table." SET $str WHERE id = $id";
+    }
+
+    public function count() {
+        return "SELECT count(*) FROM ".$this->table.";";
     }
 
     public function setTable($table): QueryBuilder

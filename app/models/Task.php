@@ -27,4 +27,12 @@ class Task extends Model
         return $this->db->query($this->queryBuilder->create(array_keys($params), array_values($params)));
     }
 
+    public function count() {
+        return $this->db->query($this->queryBuilder->count())[0];
+    }
+
+    public function update($id, $params) {
+        return $this->db->query($this->queryBuilder->update($id, $params));
+    }
+
 }

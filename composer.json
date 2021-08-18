@@ -13,6 +13,7 @@
   "require": {
     "vlucas/phpdotenv": "^2.2",
     "ext-pdo": "*",
-    "ext-pgsql": "*"
+    "ext-pgsql": "*",
+    "ext-http": "*"
   }
 }
