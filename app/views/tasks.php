@@ -9,7 +9,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>FF</title>
+    <style>
+        .form-group {
+            width: 300px;
+            border: 1px dashed #000;
+            margin:auto;
+            background-color: #e2e0d4;
+        }
+        .form-control {
+            margin: 10px auto 10px auto;
+            width: 270px;
+        }
+        .card {
+            border: 1px solid #000;
+        }
+    </style>
 </head>
 <body>
     <?php if (! isset($_SESSION['is_authorized'])) {
@@ -22,18 +37,17 @@
             <input type="text" class="form-control" placeholder="Your Name" name="username" required>
             <input type="text" class="form-control" placeholder="Your Email" name="email" required>
             <input type="text" class="form-control" placeholder="Text of the task" name="content" required>
-            <input type="submit" class="btn btn btn-primary">
+            <input type="submit" class="form-control btn-success" value="Add">
         </form>
     </div>
     <label>
         Sort by:
         <select onchange="sort_by(this)">
-            <option selected></option>
-            <option value="status">Status</option>
-            <option value="email">Email</option>
-            <option value="username">Username</option>
+            <option <?php if (! isset($_REQUEST['sort'])) echo 'selected' ?>></option>
+            <option name="sort" value="status">Status</option>
+            <option name="sort" value="email">Email</option>
+            <option name="sort" value="username">Username</option>
         </select>
-        <input type="submit" value="sort">
     </label>
     <div style="width: 1000px; margin: auto;">
     <?php foreach ($tasks as $val): ?>
@@ -52,7 +66,7 @@
             <li class="list-group-item"><b>ID:</b><?php echo $val["id"]; ?></li>
             <li class="list-group-item"><b>Username:</b><?php echo $val["username"]; ?></li>
             <li class="list-group-item"><b>Email:</b><?php echo $val["email"]; ?></li>
-            <li class="list-group-item"><b>Status:</b><?php if (isset($_SESSION['user'])) {
+            <li class=<?php echo $val["status"] ? "btn-success" : "btn-danger"?> class><b>Status:</b><?php if (isset($_SESSION['user'])) {
                     echo '<input type="checkbox" name="status"';
                     echo $val["status"] == true ? 'checked>' :'>';
                 } else {
@@ -70,7 +84,12 @@
     <hr>
     <div style="margin-left: 500px;">
         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <?php echo "<a href='?page=$i'>$i</a>" ?>
+            <?php
+                $_REQUEST['page'] = $i;
+                $qS = http_build_query($_REQUEST);
+                unset($_REQUEST['page']);
+                echo "<a href='/?$qS'>$i</a>";
+            ?>
         <?php endfor; ?>
     </div>
 <!-- Optional JavaScript -->
@@ -93,8 +112,6 @@
         let uri = '/?'+sort_form+"=asc";
         if (page) uri+="&page="+page;
 
-        console.log(uri);
-        debugger
         window.location.replace(uri);
     }
 </script>
